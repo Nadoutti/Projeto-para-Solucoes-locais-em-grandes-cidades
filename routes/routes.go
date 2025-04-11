@@ -13,6 +13,7 @@ func SetUpRoutes() *gin.Engine {
   report := router.Group("/report")
   {
     report.POST("", controllers.PostReport)
+    report.GET("", controllers.GetAllReports)
   }
 
   return router

@@ -11,9 +11,9 @@ import (
 func PostReport(c *gin.Context) {
   var createReportData models.CreateReport
 
-  if err := c.ShouldBindJSON(&createReport); err != nil {
+  if err := c.ShouldBindJSON(&createReportData); err != nil {
     c.JSON(http.StatusBadRequest, gin.H{"erro": "Dados invalidos"})
-    return
+    return //parar de rodar a funcao se der merda
   }
 
   report, err := services.CreateReport(createReportData)
@@ -25,4 +25,14 @@ func PostReport(c *gin.Context) {
   c.JSON(http.StatusCreated, gin.H{"mensagem": "Report criado com sucesso", "report": report})
 
   
+}
+
+func GetAllReports(c *gin.Context) {
+  reports, err := services.FetchAllReports()
+  if err != nil {
+    c.JSON(http.StatusNotFound, gin.H{"erro": "Nao foi encontrado report algum"})
+    return
+  }
+
+  c.JSON(http.StatusOK, gin.H{"mensagem": "Reports listados!", "reports": reports})
 }
